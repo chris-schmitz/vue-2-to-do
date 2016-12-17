@@ -1,5 +1,6 @@
 <template>
     <div class="task-list-container">
+        list
     </div>
 </template>
 
@@ -13,5 +14,11 @@
     }
 </script>
 
-<style>
+<style lang="scss" scoped>
+    @import '../style/_variables.scss';
+
+    .task-list-container{
+        flex: 1;
+        background-color: $blue;
+    }
 </style>

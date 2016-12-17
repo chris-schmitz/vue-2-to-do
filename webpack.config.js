@@ -30,12 +30,22 @@ module.exports = {
         exclude: /node_modules/
       },
       {
+        test: /\.scss$/,
+        loaders:['style-loader', 'css-loader', 'sass-loader'],
+        exclude: 'node_modules'
+      },
+      {
         test: /\.(png|jpg|gif|svg)$/,
         loader: 'file-loader',
         options: {
           name: '[name].[ext]?[hash]'
         }
-      }
+      },
+      { test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,   loader: "url-loader?limit=10000&minetype=application/font-woff" },
+      { test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/,   loader: "url-loader?limit=10000&minetype=application/font-woff" },
+      { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,    loader: "file-loader" },
+      { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,    loader: "file-loader" },
+      { test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,    loader: "file-loader" }
     ]
   },
   resolve: {

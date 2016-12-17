@@ -1,6 +1,6 @@
 <template>
     <div id="app">
-        <healine></healine>
+        <headline></headline>
         <div class="content">
             <status></status>
             <task-list></task-list>
@@ -25,5 +25,17 @@
 </script>
 
 <style>
-#app{}
+    #app{
+        background-color:red;
+        height:100%;
+        width:100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .content{
+        flex:1;
+        display: flex;
+        // justify-content: space-between;
+    }
 </style>
