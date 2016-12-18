@@ -1,11 +1,19 @@
-module.exports = {
+import mockTasks from './MockTasks'
+
+
+let store = {
     state:{
         notification:{
             show: false,
             message: null,
             type: 'error' // info, success, warning
         },
-        activeStatus: 'All' // in progress, complete
+        availableStatuses: ['All', 'In Progress', 'Complete'],
+        activeStatus: 'All', // in progress, complete
+        tasks: []
+    },
+    getAvailableStatuses(){
+        return this.state.availableStatuses
     },
     getActiveStatus(){
         return this.state.activeStatus
@@ -22,5 +30,18 @@ module.exports = {
         this.state.notification.show = false
         this.state.notification.message = null
         this.state.notification.type = 'error'
+    },
+    getTasks(){
+        return this.state.tasks
+    },
+    setTasks(tasks = []){
+        this.state.tasks = tasks
+    },
+    addTask(task){
+        this.state.tasks.push(task)
     }
 }
+
+store.setTasks(mockTasks.tasks)
+
+module.exports = store
