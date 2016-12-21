@@ -1,11 +1,21 @@
 <template>
     <div class="task-list-container">
-        <ul class="task-list">
-            <li class="task-list-item" v-for="task in tasks" @click="showDetails">
+        <ul class="task-list" :class="{'plank': displayStyle === 'plank'}">
+            <li
+                class="task-list-item"
+                :class="{'complete': task.complete, 'tile': displayStyle === 'tile', 'plank': displayStyle === 'plank'}"
+                v-for="task in tasksByFilter"
+                @click="showDetails(task)"
+            >
                 <span >{{ task.title }}</span>
-                <button @click.stop="deleteItem" class="fa fa-close"></button>
+                <button @click.stop="deleteItem(task)" class="fa fa-close"></button>
             </li>
         </ul>
+
+        <!-- 
+        <button @click='toggleListDisplay'>Toggle</button>
+         -->
+
     </div>
 </template>
 
@@ -16,7 +26,9 @@
     module.exports = {
         components:{TaskDetail},
         data(){
-            return {}
+            return {
+                displayStyle: 'tile' // plank
+            }
         },
         computed:{
             tasks:{
@@ -26,14 +38,34 @@
                 set(tasks){
                     Store.setTasks(tasks)
                 }
+            },
+            tasksByFilter(){
+                return Store.getTasks()
+                    .filter(task => {
+                        if(Store.getActiveStatus() === "In Progress"){
+                            return task.complete 
+                        } else if (Store.getActiveStatus() === "Complete"){
+                            return !task.complete 
+                        } else {
+                            return true
+                        }
+                    })
             }
         },
         methods:{
-            showDetails(){
-                console.log('show details')
+            showDetails(task){
+                Store.setSelectedTask(task)
             },
-            deleteItem(){
+            deleteItem(task){
+                Store.deleteTask(task)
                 console.log('delete item')
+            },
+            toggleListDisplay(){
+                if (this.displayStyle === 'tile'){
+                    this.displayStyle = 'plank'
+                } else {
+                    this.displayStyle = 'tile'
+                }
             }
         }
     }
@@ -45,6 +77,9 @@
     .task-list-container{
         flex: 1;
         background-color: $blue;
+        overflow-x: hidden;
+        overflow-y: auto;
+        align-items: center;
     }
 
     .task-list{
@@ -52,11 +87,17 @@
         margin: 0;
         list-style: none;
         display: flex;
-        flex-direction: column;
+        flex-wrap: wrap;
+        justify-content: center;
+
+        &.plank{
+            flex-wrap: none;
+        }
     }
 
     .task-list-item{
-        flex: 1; 
+        cursor: pointer;
+        margin: 10px;
         display: flex;
         border-top: 1px solid $darkBlue;
         border-bottom: 1px solid $darkBlue;
@@ -66,6 +107,20 @@
         margin-bottom: -1px;
         align-items: center;
         font-size: 25px;
+
+        &:hover{
+            background-color: $green;
+        }
+        &:active{
+            background-color: darken($green,20%);
+        }
+
+        &.tile{
+            flex: 0 0 350px; 
+        }
+        &.plank{
+            width: 100%!important;
+        }
 
         span{
             padding: 20px;
@@ -80,5 +135,9 @@
             border: none;
             text-align: left;
         }
+    }
+    .complete{
+        background-color: darkgray;
+        color:gray; 
     }
 </style>
