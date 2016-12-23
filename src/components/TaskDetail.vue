@@ -106,7 +106,7 @@
 
     .task-detail-container{
         position: absolute;
-        width: 60%;
+        width: 100%;
         background-color: $white;
         height: 100%;
         right: 0;

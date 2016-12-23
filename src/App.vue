@@ -4,7 +4,9 @@
         <div class="content">
             <status></status>
             <task-list></task-list>
-            <task-detail v-if="taskSelected"></task-detail>
+            <transition name="slide-in-right">
+                <task-detail v-if="taskSelected"></task-detail>
+            </transition>
         </div>
         <control></control>
     </div>
@@ -34,12 +36,14 @@
     }
 </script>
 
-<style>
-    *{
+<style lang="scss">
+    @import './style/_variables.scss';
+
+    * {
         box-sizing: border-box;
     }
+    
     #app{
-        background-color:red;
         height:100%;
         width:100%;
         display: flex;
@@ -51,5 +55,19 @@
         display: flex;
         position: relative;
         // justify-content: space-between;
+    }
+
+
+
+    .slide-in-right-enter-active {
+        transition: all .5s ease;
+    }
+
+    .slide-in-right-leave-active {
+        transition: all .5s ease;
+    }
+
+    .slide-in-right-enter, .slide-in-right-leave-active {
+        transform: translateX(100%);
     }
 </style>
