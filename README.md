@@ -2,6 +2,8 @@
 
 > A todo crud js client
 
+![demo](readmeAttachments/demo.gif)
+
 ## Wireframe
 
 This UI is based on [the wireframes found here](https://drive.google.com/file/d/0Bxhfk2Nciu7jT250ZzRBbTRaLW8/view?usp=sharing). 
