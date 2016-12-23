@@ -80,6 +80,7 @@
         overflow-x: hidden;
         overflow-y: auto;
         align-items: center;
+        position: relative;
     }
 
     .task-list{

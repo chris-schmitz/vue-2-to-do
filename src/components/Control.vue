@@ -8,12 +8,15 @@
             </li>
 
         </ul>
-        <div><button class="add-button fa fa-plus"></button></div>
+        <div>
+            <button @click="newTask" class="add-button fa fa-plus"></button>
+        </div>
     </div>
 </template>
 
 <script>
     import Store from './Store'
+    import {bus, BusCommands} from './EventBus'
 
     module.exports = {
         data(){
@@ -35,6 +38,9 @@
         methods:{
             filterByStatus(status){
                 this.activeStatus = status
+            },
+            newTask(){
+                bus.$emit(BusCommands.CREATENEWTASK)
             }
         }
     }

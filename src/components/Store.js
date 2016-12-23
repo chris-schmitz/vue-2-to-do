@@ -1,5 +1,21 @@
 import mockTasks from './MockTasks'
+import {bus, BusCommands} from './EventBus'
+import Vue from 'vue'
 
+bus.$on(BusCommands.CREATENEWTASK, createNewTask)
+
+function createNewTask(){
+    let newTask = {
+       title: null,
+       description: null,
+       complete: false,
+       history: [] 
+    }
+    store.addTask(newTask)
+    store.setSelectedTask(newTask)
+    // We need to do it this way so that the TaskDetail.vue has time to render
+    Vue.nextTick(() => bus.$emit(BusCommands.ENTEREDITMODE))
+}
 
 let store = {
     state:{
