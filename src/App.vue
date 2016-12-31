@@ -32,6 +32,28 @@
             taskSelected(){
                 return this.sharedState.tasks.selected !== null
             }
+        },
+        methods:{
+            handleErrantResponse(response){
+                alert(response.data.message)
+            },
+            handleSucessfulResponse(response){
+                Store.setTasks(response.data.payload.tasks)
+            }
+        },
+        created(){
+            this.$http.get('tasks')
+                .then(response => {
+                    if(response.ok === undefined || !response.ok){
+                        this.handleErrantResponse(response)
+                    } else {
+                        this.handleSucessfulResponse(response)
+                    }
+                })
+                .catch(response => {
+                    this.handleErrantResponse(response)
+                    console.error(response)
+                })
         }
     }
 </script>

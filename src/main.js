@@ -7,6 +7,7 @@ require('./style/main.scss');
 
 // Vue.use(VueRouter)
 Vue.use(VueResource)
+Vue.http.options.root = "http://localhost:8082"
 
 new Vue({
   el: '#app',

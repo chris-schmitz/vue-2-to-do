@@ -1,4 +1,4 @@
-import mockTasks from './MockTasks'
+// import mockTasks from './MockTasks'
 import {bus, BusCommands} from './EventBus'
 import Vue from 'vue'
 
@@ -76,6 +76,6 @@ let store = {
     }
 }
 
-store.setTasks(mockTasks.tasks)
+// store.setTasks(mockTasks.tasks)
 
 module.exports = store
