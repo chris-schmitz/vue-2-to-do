@@ -11,6 +11,13 @@ Note that you need google drive to view this document.
 
 ## Get up and running
 
+1. Open a terminal
+2. `cd` to a directory where you want to store the project
+3. Clone the project
+```
+git clone https://github.com/chris-schmitz/vue-2-to-do.git
+```
+
 ### For API developers
 
 This front end is configured to communicate with a separate API at a specific host address.
@@ -39,6 +46,8 @@ Once you do this, all of the calls to your api will use the host you define for 
 **NOTE that the host address includes `http://` does _not_ include the trailing forwardslash**.
 
 Also note that you could just run `npm run build` and use the `index.html` file found at the root of the project and the `dist/build.js` file on whatever web server you want, but the webpack-dev-server that the `npm run dev` script spins up is good enough for our project.
+
+Also also note that if you host your API on a different domain from this clinet you'll want to make sure your API and/or web server has CORS enabled. 
 
 ### For client developers
 
