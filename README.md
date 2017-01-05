@@ -9,7 +9,39 @@
 This UI is based on [the wireframes found here](https://drive.google.com/file/d/0Bxhfk2Nciu7jT250ZzRBbTRaLW8/view?usp=sharing). 
 Note that you need google drive to view this document. 
 
-## Build Setup
+## Get up and running
+
+### For API developers
+
+This front end is configured to communicate with a separate API at a specific host address.
+
+To set the host address for your version of the api do the following:
+
+1. Make a copy of the `config.example.js` file at the root of this project and rename it `config.js`
+2. In `config.js` set the `api.host` property to the fully qualified address that your api is hosted at.
+    e.g. 
+
+```
+module.exports = {
+    api: {
+        host: 'http://localhost:8082'
+    }
+}
+```
+3. Start the dev server
+
+```
+npm run dev
+```
+
+Once you do this, all of the calls to your api will use the host you define for the base url.
+
+**NOTE that the host address includes `http://` does _not_ include the trailing forwardslash**.
+
+Also note that you could just run `npm run build` and use the `index.html` file found at the root of the project and the `dist/build.js` file on whatever web server you want, but the webpack-dev-server that the `npm run dev` script spins up is good enough for our project.
+
+### For client developers
+
 
 ``` bash
 # install dependencies
