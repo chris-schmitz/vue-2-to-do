@@ -40,7 +40,6 @@
                 }
             },
             tasksByFilter(){
-                debugger
                 return Store.getTasks()
                     .filter(task => {
                         if(Store.getActiveStatus() === "In Progress"){
