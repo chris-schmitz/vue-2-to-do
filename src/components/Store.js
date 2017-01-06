@@ -1,6 +1,10 @@
 // import mockTasks from './MockTasks'
 import {bus, BusCommands} from './EventBus'
 import Vue from 'vue'
+import config from '../../config.js'
+
+import axios from 'axios'
+axios.defaults.baseURL = config.api.host
 
 bus.$on(BusCommands.CREATENEWTASK, createNewTask)
 
@@ -37,6 +41,16 @@ let store = {
     getSelectedTask(){
         return this.state.tasks.selected // || {title: 'test', description: 'test again'}
     },
+    loadAllTasks(){
+        axios.get('tasks')
+            .then(response => {
+                this.setTasks(response.data.payload.tasks)
+            })
+            .catch(response => {
+                debugger
+                // fit in notifications
+            })
+    },
     getTasks(){
         return this.state.tasks.list 
     },
@@ -46,8 +60,16 @@ let store = {
     addTask(task){
         this.state.tasks.list.push(task)
     },
-    deleteTask(task){
-        this.setTasks(this.getTasks().filter(storedTasks => storedTasks !== task))
+    deleteTask(task, callback){
+        var me = this
+        axios.delete(`tasks/${task._id}`)
+            .then(response => {
+                me.setTasks(me.getTasks().filter(storedTasks => storedTasks._id !== task._id))
+                callback({success: true})
+            })
+            .catch(response => {
+                // notification
+            })
 
         // Is there an advantage to doing it this way vs splice? It feels a bit safer
         // but do we gain safety at the expence of performance re: vue's reactivity? 
@@ -63,6 +85,30 @@ let store = {
     },
     setActiveStatus(status){
         this.state.activeStatus = status
+    },
+    saveChangesToTask(task, callback){
+        if(task._id !== undefined){
+
+            axios.patch(`tasks/${task._id}`, {task})
+                .then(response => {
+                    callback(response.data)
+                })
+                .catch(response => {
+                    console.error(response)
+                })
+
+        } else {
+
+            axios.post('tasks', {task})
+                .then(response => {
+                    task._id = response.data.payload.record._id
+                    callback(response.data)
+                })
+                .catch(response => {
+                    console.error(response)
+                    //notify
+                })
+        }
     },
     setNotification(payload = {message: 'Internal Error', type: 'error'}){
         this.state.notification.message = message

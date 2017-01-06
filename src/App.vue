@@ -42,18 +42,7 @@
             }
         },
         created(){
-            this.$http.get('tasks')
-                .then(response => {
-                    if(response.ok === undefined || !response.ok){
-                        this.handleErrantResponse(response)
-                    } else {
-                        this.handleSucessfulResponse(response)
-                    }
-                })
-                .catch(response => {
-                    this.handleErrantResponse(response)
-                    console.error(response)
-                })
+            Store.loadAllTasks()
         }
     }
 </script>

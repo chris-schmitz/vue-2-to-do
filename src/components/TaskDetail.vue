@@ -24,6 +24,8 @@
         <div class='actions'>
             <div class='top'>
                 <button class="edit" v-if="!editTask" @click='edit'>Edit</button>
+                <button class="delete" v-if="!editTask" @click='remove'>Delete</button>
+
                 <button class="save" v-if="editTask" @click='save'>Save</button>
                 <button class="cancel" v-if="editTask" @click='cancel'>Cancel</button>
             </div>
@@ -67,8 +69,19 @@
                 this.editTask = true
             },
             save(){
-                this.copyLocalTaskPropertiesToSelected()
-                this.editTask = false
+                Store.saveChangesToTask(this.task, () => {
+                    this.copyLocalTaskPropertiesToSelected()
+                    this.editTask = false
+                })
+            },
+            remove(){
+                Store.deleteTask(this.task, (result) => {
+                    if(result.success){
+                        Store.setSelectedTask(null)
+                    }else {
+                        // notify? should we notify here or the store?
+                    }
+                })
             },
             cancel(){
                 this.copySelectedTaskPropertiesToLocal()
@@ -209,6 +222,9 @@
             @include button($green, $white, 0px, $fontSizeNormal);
         }
         .cancel{
+            @include button($blue, $white, 0px, $fontSizeNormal);
+        }
+        .delete{
             @include button($red, $white, 0px, $fontSizeNormal);
         }
 
