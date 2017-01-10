@@ -61,10 +61,10 @@ let store = {
         this.state.tasks.list.push(task)
     },
     deleteTask(task, callback){
-        var me = this
-        axios.delete(`tasks/${task._id}`)
+        let me = this
+        axios.delete(`tasks/${task.id}`)
             .then(response => {
-                me.setTasks(me.getTasks().filter(storedTasks => storedTasks._id !== task._id))
+                me.setTasks(me.getTasks().filter(storedTasks => storedTasks.id !== task.id))
                 callback({success: true})
             })
             .catch(response => {
@@ -87,9 +87,9 @@ let store = {
         this.state.activeStatus = status
     },
     saveChangesToTask(task, callback){
-        if(task._id !== undefined){
+        if(task.id !== undefined){
 
-            axios.patch(`tasks/${task._id}`, {task})
+            axios.patch(`tasks/${task.id}`, {task})
                 .then(response => {
                     callback(response.data)
                 })
@@ -101,12 +101,11 @@ let store = {
 
             axios.post('tasks', {task})
                 .then(response => {
-                    task._id = response.data.payload.record._id
+                    task.id = response.data.payload.record.id
                     callback(response.data)
                 })
                 .catch(response => {
                     console.error(response)
-                    //notify
                 })
         }
     },

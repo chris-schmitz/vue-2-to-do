@@ -76,7 +76,7 @@ Responses are also expected as json in the following shape:
 }
 ```
 
-To make it simple to use this with an external API the base host name used for all ajax calls has been moved out to a config file (see the ["for API Developers](#for-api-developers) section below for more info) and all of the ajax calls are made from the `src/components/Store.js` file so you shouldn't need to hunt around too much to see how the calls are made. 
+To make it simple to use this with an external API the base host name used for all ajax calls has been moved out to a config file (see the ["for API Developers"](#for-api-developers) section below for more info) and all of the ajax calls are made from the `src/components/Store.js` file so you shouldn't need to hunt around too much to see how the calls are made. 
 
 ### For API Developers
 
