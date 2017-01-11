@@ -45,10 +45,17 @@ let store = {
         axios.get('tasks')
             .then(response => {
                 this.setTasks(response.data.payload.tasks)
+                this.setNotification({
+                    message: 'Tasks loaded',
+                    type: 'success'
+                })
             })
             .catch(response => {
-                debugger
-                // fit in notifications
+                console.error(response)
+                this.setNotification({
+                    message: 'Error loading tasks',
+                    type: 'error'
+                })
             })
     },
     getTasks(){
@@ -65,10 +72,20 @@ let store = {
         axios.delete(`tasks/${task.id}`)
             .then(response => {
                 me.setTasks(me.getTasks().filter(storedTasks => storedTasks.id !== task.id))
+
+                this.setNotification({
+                    message: 'Task deleted',
+                    type: 'success'
+                })
+
                 callback({success: true})
             })
             .catch(response => {
-                // notification
+                console.error(response)
+                this.setNotification({
+                    message: 'Unable to delete task',
+                    type: 'error'
+                })
             })
 
         // Is there an advantage to doing it this way vs splice? It feels a bit safer
@@ -87,13 +104,28 @@ let store = {
         this.state.activeStatus = status
     },
     saveChangesToTask(task, callback){
+        let success = () => {
+            this.setNotification({
+                message: 'Task saved',
+                type: 'success'
+            })
+        }
+        let failure = () => {
+            this.setNotification({
+                message: 'Unable to save task',
+                type: 'error'
+            })
+        }
+
         if(task.id !== undefined){
 
             axios.patch(`tasks/${task.id}`, {task})
                 .then(response => {
+                    success()
                     callback(response.data)
                 })
                 .catch(response => {
+                    failure()
                     console.error(response)
                 })
 
@@ -102,16 +134,18 @@ let store = {
             axios.post('tasks', {task})
                 .then(response => {
                     task.id = response.data.payload.record.id
+                    success()
                     callback(response.data)
                 })
                 .catch(response => {
+                    failure()
                     console.error(response)
                 })
         }
     },
     setNotification(payload = {message: 'Internal Error', type: 'error'}){
-        this.state.notification.message = message
-        this.state.notification.type = type
+        this.state.notification.message = payload.message
+        this.state.notification.type = payload.type
         this.state.notification.show = true
     },
     clearNotification(){

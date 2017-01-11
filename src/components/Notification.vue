@@ -23,6 +23,9 @@
             },
             show(){
                 return this.sharedState.notification.show
+            },
+            typeIsError(){
+                return this.sharedState.notification.type === 'error'
             }
         },
         methods:{
@@ -32,7 +35,9 @@
         },
         watch:{
             show(value){
-                debugger
+                if(! this.typeIsError){
+                    setTimeout(() => this.close(), 3000)
+                }
             }
         }
     }
