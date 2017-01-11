@@ -69,7 +69,7 @@ let store = {
     },
     deleteTask(task, callback){
         let me = this
-        axios.delete(`tasks/${task.id}`)
+        axios.delete(`tasks/${task.id}?method=delete`)
             .then(response => {
                 me.setTasks(me.getTasks().filter(storedTasks => storedTasks.id !== task.id))
 
@@ -118,8 +118,8 @@ let store = {
         }
 
         if(task.id !== undefined){
-
-            axios.patch(`tasks/${task.id}`, {task})
+            let method = "patch"
+            axios.patch(`tasks/${task.id}`, {method, task})
                 .then(response => {
                     success()
                     callback(response.data)
@@ -130,8 +130,9 @@ let store = {
                 })
 
         } else {
+            let method = "patch"
 
-            axios.post('tasks', {task})
+            axios.post('tasks', {method, task})
                 .then(response => {
                     task.id = response.data.payload.record.id
                     success()
