@@ -137,7 +137,7 @@ let store = {
 
             axios.post('tasks', {method, task})
                 .then(response => {
-                    task.id = response.data.payload.record.id
+                    task.id = response.data.payload[0].id
                     success()
                     callback(response.data)
                 })
