@@ -117,6 +117,9 @@ let store = {
             })
         }
 
+        debugger
+        task = JSON.stringify(task) // need this for the python API. it needs valid json
+
         if(task.id !== undefined){
             let method = "patch"
             axios.patch(`tasks/${task.id}`, {method, task})
