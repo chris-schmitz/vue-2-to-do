@@ -69,7 +69,8 @@ let store = {
     },
     deleteTask(task, callback){
         let me = this
-        axios.delete(`tasks/${task.id}?method=delete`)
+        debugger
+        axios.delete(`tasks/${task.id}`)
             .then(response => {
                 me.setTasks(me.getTasks().filter(storedTasks => storedTasks.id !== task.id))
 
@@ -81,7 +82,6 @@ let store = {
                 callback({success: true})
             })
             .catch(response => {
-                console.error(response)
                 this.setNotification({
                     message: 'Unable to delete task',
                     type: 'error'
@@ -117,7 +117,6 @@ let store = {
             })
         }
 
-        debugger
         task = JSON.stringify(task) // need this for the python API. it needs valid json
 
         if(task.id !== undefined){
@@ -137,6 +136,7 @@ let store = {
 
             axios.post('tasks', {method, task})
                 .then(response => {
+                    task = JSON.parse(task)
                     task.id = response.data.payload[0].id
                     success()
                     callback(response.data)
