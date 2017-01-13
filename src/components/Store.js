@@ -69,7 +69,6 @@ let store = {
     },
     deleteTask(task, callback){
         let me = this
-        debugger
         axios.delete(`tasks/${task.id}`)
             .then(response => {
                 me.setTasks(me.getTasks().filter(storedTasks => storedTasks.id !== task.id))
